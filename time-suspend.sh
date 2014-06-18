@@ -1,12 +1,6 @@
 #!/bin/bash
 # time-suspend.sh
 
-# @TODO
-# * verifier que le nombre n'est pas trop elevé
-# * possibilité d'avoir un nombre flottant
-# * possibilité de donner un seul paramètre nombre+suffix
-
-
 
 ############################
 # DECLARATION VARIABLES
