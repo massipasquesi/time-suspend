@@ -8,6 +8,10 @@ Mais voilà que après l'ordi reste allumé.
 Grace à ce script vouspouvez donner un ultimatum à votre ordi :
 "Joue encore 30 minutes et puis tu te met en veille d'accord ?" :D
 
+## OS
+Le script fonctionne pour l'instant sous Ubuntu.
+Testé sous Ubuntu 12.04
+
 ## comment l'utiliser ?
 
 Une fois le script téléchargé, deplacez vous dans le dossier qui le contient et tapez :
