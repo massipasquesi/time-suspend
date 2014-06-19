@@ -32,7 +32,7 @@ showhelp()
     echo -e "\t-b : l'action à la fin du script est 'hibernate'"
     echo -e "\t L'action par default est 'suspend' (mise en veille). Si plus d'une option d'action est donné la dérnière est prise en compte\n"
     echo -e "Utilisation du script :"
-    echo -e "\t$0 [-v] [number] [suffix]"
+    echo -e "\t$0 [-options] [number] [suffix]"
     echo -e "\t\t number : le nombre de unités de temps ( $default_number par default )"
     echo -e "\t\t suffix : l'unité de mesure du temps ( ${suffix[$default_sfx]} = ${mesures[$default_sfx]} par default ) "
     echo -e "\t\t\t le suffix doit avoir une des valeurs suivantes :"
