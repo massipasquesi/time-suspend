@@ -5,11 +5,13 @@
 Ce script permet de donner un temps definie avant la mise en veille, redemarrage, suspension du système.
 Avez vous déjà eu envie d'ecouter de la musique sur votre ordi avant de vous endormir?
 Mais voilà que après l'ordi reste allumé.
-Grace à ce script vouspouvez donner un ultimatum à votre ordi :
+Grace à ce script vous pouvez donner un ultimatum à votre ordi :
 "Joue encore 30 minutes et puis tu te met en veille d'accord ?" :D
 
 ## OS
+
 Le script fonctionne pour l'instant sous Ubuntu.
+
 Testé sous Ubuntu 12.04
 
 ## comment l'utiliser ?
