@@ -69,7 +69,7 @@ verifyOpts()
                 action="hibernate"
                 ;;
             \?) 
-                echo "Invalid Option: -$OPTARG" >&2
+                echo -e "Invalid Option: -$OPTARG \nrun time-suspend -h to show help" >&2
                 exit 1
                 ;;
         esac
@@ -135,7 +135,7 @@ verifyArgs()
             return 1
         fi
 
-        tempo="$1$2"
+        tempo="${1}${2}"
         return 0
     fi
 }
@@ -178,10 +178,38 @@ calculeSeconds()
     return 0
 }
 
+# Choix du message en fonction de l'action
+buildMsgAndAction()
+{
+    vecho "action=${action}"
+    case $action in
+        suspend)
+            msg="va être mis en veille"
+            dest="org.freedesktop.UPower"; compdest="/org/freedesktop/UPower org.freedesktop.UPower.Suspend"
+            ;;
+        reboot)
+            msg="va redemarrer"
+            dest="org.freedesktop.ConsoleKit"; compdest="/org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart"
+            ;;
+        shutdown)
+            msg="va être eteint"
+            dest="org.freedesktop.ConsoleKit"; compdest="/org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop"
+            ;;
+        hibernate)
+            msg="va être mis en hibernation"
+            dest="org.freedesktop.UPower"; compdest="/org/freedesktop/UPower org.freedesktop.UPower.Hibernate"
+            ;;
+        \?) 
+            echo "Invalid Action: $action"
+            exit 1
+            ;;
+    esac
+}
+
 # Affiche le message finale du script
 showexitmsg()
 {
-    echo -e "\n\t L'ordinateur $1 maintenant"
+    echo -e "\n\t L'ordinateur $msg maintenant"
     sleep 0.5
 }
 
@@ -189,7 +217,7 @@ showexitmsg()
 echotime()
 {
     clear
-    echo -e "\t$seconds seconds avant la fin du script"
+    echo -e "\n\tdans $seconds seconds l'ordinateur $msg"
 }
 
 # Affiche le temps qui s'ecoule
@@ -211,29 +239,11 @@ showtime()
 # Selon la valeur de $action : met en veille, redemarre, eteint ou hyberne le système
 doaction()
 {
-    echo -e "$action"
-    case $action in
-        suspend)
-            showexitmsg "va être mis en veille"
-            dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
-            ;;
-        reboot)
-            showexitmsg "va redemarrer"
-            dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart
-            ;;
-        shutdown)
-            showexitmsg "va être eteint"
-            dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
-            ;;
-        hibernate)
-            showexitmsg "va être mis en hibernation"
-            dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
-            ;;
-        \?) 
-            echo "Invalid Action: $action"
-            return 1
-            ;;
-    esac
+    vecho "action=${action}\nmsg=${msg}\ndest=${dest}\ncompdest=${compdest}"
+    showexitmsg
+    dbus-send --system --print-reply --dest="$dest" $compdest
+
+    return 0
 }
 
 
@@ -252,6 +262,7 @@ if [ "$?" != 0 ]; then
 fi
 
 vecho "tempo = $tempo"
+buildMsgAndAction
 showtime $tempo
 doaction
 
